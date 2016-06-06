@@ -1,0 +1,34 @@
+.content
+  .content-flex
+    .order-content.wrap-row-start-start.w100.h100
+      .row-start-center.w100.h1 Orders
+      .state-order.row-start-center.w100 IN PROGRESS
+      .row-start-center.w100
+        %table.table
+          %thead
+            %th Book
+            %th Price
+            %th QTY
+            %th Total
+            %th
+          %tbody
+            - @order_items&.each do |book|
+              %tr
+                %td
+                  .cart-book
+                    %image= link_to image_tag("#{book[:image]}"), book_path(book[:id])
+                    %descr
+                      %descr-title= book[:title]
+                      %descr-description= book[:description]
+                %td= book[:price]
+                %td= number_field_tag "cart[#{book[:id]}]", book[:amount], min: "1", max: "99", step: 1
+                %td.total= book[:total]
+            %tr
+              %td
+                - if @order
+                  = link_to 'GO TO CHECKOUT', checkout_path(:address), class: "btn btn-warning"
+                - else
+                  = link_to 'GO TO CART', cart_path, class: "btn btn-warning"
+              %td
+              %td
+              %td

@@ -1,0 +1,34 @@
+.content
+  .content-flex
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title CHECKOUT
+        %ul.nav.nav-tabs
+          %li
+            %a(href= "address")  Address
+          %li.active
+            %a(href= "delivery") Delivery
+          %li
+            %a(href= "payment")  Payment
+          %li
+            %a(href= "confirm")  Confirm
+          %li
+            %a(href= "complete") Complete
+      = form_for @checkout_form, url: wizard_path, method: 'PATCH', html: {class: 'new_order form-control'} do |f|
+        .checkout-content.cart-book
+          .checkout-billing.address
+            DELIVERY
+            = collection_radio_buttons :order, :order_delivery_id, Delivery.all, :id, :name, {checked: @checkout_form.order_delivery_id} do |b|
+              = b.label() {b.text + " - #{show_price(b.object.price)}" + b.radio_button}
+          .checkout-shipping.address
+          .checkout-summary.address
+            ORDER SUMMARY
+            %item_total(style='margin-top: 5px')
+              = "ITEM TOTAL:  #{show_price(@checkout_form.order_total_price)}"
+            %item_delivery(style='margin-top: 5px')
+              = "SHIPPING:  #{show_price(@checkout_form.order.delivery&.price)}"
+            %order_total
+              = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))}"
+        .submit.column-start-start
+          = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success input-checkout'
+          = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'form-control btn btn-danger input-checkout'

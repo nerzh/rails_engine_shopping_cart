@@ -1,0 +1,118 @@
+.content
+  .content-flex
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title CHECKOUT
+        %ul.nav.nav-tabs
+          %li
+            %a(href= "address")  Address
+          %li
+            %a(href= "delivery") Delivery
+          %li
+            %a(href= "payment")  Payment
+          %li.active
+            %a(href= "confirm")  Confirm
+          %li
+            %a(href= "complete") Complete
+      %confirm-content.cart-book
+        %shipping
+          .row-start-centr
+            = "Shipping address "
+            = link_to 'edit', checkout_path(:address)
+          %div
+          %div
+            = @checkout_form.order_shipping_address_first_name
+          %div
+            = @checkout_form.order_shipping_address_last_name
+          %div
+            = @checkout_form.order_shipping_address_street
+          %div
+            = @checkout_form.order_shipping_address_city
+          %div
+            = @checkout_form.order.order_shipping_address&.country&.name
+          %div
+            = @checkout_form.order_shipping_address_zip
+          %div
+            = @checkout_form.order_shipping_address_phone
+        %billing
+          .row-start-centr
+            = "Billing address "
+            = link_to 'edit', checkout_path(:address)
+          %div
+          %div
+            = @checkout_form.order_billing_address_first_name
+          %div
+            = @checkout_form.order_billing_address_last_name
+          %div
+            = @checkout_form.order_billing_address_street
+          %div
+            = @checkout_form.order_billing_address_city
+          %div
+            = @checkout_form.order_billing_address&.country&.name
+          %div
+            = @checkout_form.order_billing_address_zip
+          %div
+            = @checkout_form.order_billing_address_phone
+        %shipments
+          .row-start-centr
+            = "Shipments "
+            = link_to 'edit', checkout_path(:delivery)
+          %div
+          %div
+            = @checkout_form.order.delivery.name
+        %payment
+          .row-start-centr
+            = "Payment information "
+            = link_to 'edit', checkout_path(:payment)
+          %div
+          %div
+            = @checkout_form.credit_card_first_name
+          %div
+            = @checkout_form.credit_card_last_name
+          %div
+            = "**** **** **** #{@checkout_form.credit_card_number&.slice(12..16)}"
+          %div
+            = "#{@checkout_form.credit_card_exp_month}/#{@checkout_form.credit_card_exp_year}"
+      .order-content
+        %table.table
+          %thead
+            %th Book
+            %th Price
+            %th QTY
+            %th Total
+          %body
+            - @checkout_form.order.order_items.each do |order_item|
+              - id             = order_item.book_id
+              - title          = order_item.book.title
+              - description    = order_item.book.description
+              - price          = order_item.book.price
+              - amount         = order_item.quantity
+              - total          = show_price(price*amount)
+              - image          = order_item.book.cover.small
+              - @total_price   = @checkout_form.order.total_price
+              %tr
+                %td
+                  .cart-book
+                    %image= link_to image_tag("#{image}"), book_path(id)
+                    %descr
+                      %descr-title= title
+                      %descr-description= description
+                %td= show_price(price)
+                %td= amount
+                %td.total= total
+            %tr
+              %td.column-center-start
+                %div SUB TOTAL:
+                %div SHIPPING:
+              %td
+              %td
+              %td.column-center-center
+                %div= show_price(@total_price)
+                %div= show_price(@total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))
+            %tr
+              %td.column-start-start
+                = link_to 'PLACE ORDER', wizard_path, class: "btn btn-success input-checkout", method: 'PATCH'
+                = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'btn btn-danger input-checkout'
+              %td
+              %td
+              %td

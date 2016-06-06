@@ -1,0 +1,45 @@
+.content
+  .content-flex
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title CHECKOUT
+        %ul.nav.nav-tabs
+          %li.active
+            %a(href= "address")  Address
+          %li
+            %a(href= "delivery") Delivery
+          %li
+            %a(href= "payment")  Payment
+          %li
+            %a(href= "confirm")  Confirm
+          %li
+            %a(href= "complete") Complete
+      = form_for @checkout_form, url: wizard_path, method: 'PATCH', html: {class: 'new_order form-control wrap-start'} do |f|
+        .checkout-content.cart-book
+          .checkout-billing.address
+            BILLING ADDRESS
+            = f.text_field :order_billing_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_city,       placeholder: "City",       class: 'form-control input-checkout'
+            = f.collection_select(:order_billing_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address"})
+            = f.text_field :order_billing_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
+          .checkout-shipping.address
+            SHIPPING ADDRESS
+            = f.text_field :order_shipping_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_city,       placeholder: "City",       class: 'form-control input-checkout'
+            = f.collection_select(:order_shipping_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address input-checkout"})
+            = f.text_field :order_shipping_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
+          .checkout-summary.address
+            ORDER SUMMARY
+            %item_total(style='margin-top: 5px')
+              = "ITEM TOTAL:  #{show_price(@checkout_form.order_total_price)}"
+            %order-total
+              = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price)}"
+        .submit.column-start-start
+          = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success input-checkout'
+          = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'form-control btn btn-danger input-checkout'

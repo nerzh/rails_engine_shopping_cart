@@ -1,0 +1,39 @@
+.content
+  .content-flex
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title CHECKOUT
+        %ul.nav.nav-tabs
+          %li
+            %a(href= "address")  Address
+          %li
+            %a(href= "delivery") Delivery
+          %li.active
+            %a(href= "payment")  Payment
+          %li
+            %a(href= "confirm")  Confirm
+          %li
+            %a(href= "complete") Complete
+      = form_for @checkout_form, url: wizard_path, method: 'PATCH', html: {class: 'new_order form-control'} do |f|
+        .checkout-content.cart-book
+          .checkout-billing.address
+            CREDIT CARD
+            = f.text_field :credit_card_first_name, placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :credit_card_last_name,  placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :credit_card_number,     placeholder: "Number",     class: 'form-control input-checkout'
+            %exp_date.cart-book
+              = f.select   :credit_card_exp_month,  1..12, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control month'}
+              = f.select   :credit_card_exp_year,   Date.today.year.. 8.years.from_now.year, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control year'}
+            = f.text_field :credit_card_cvv,        placeholder: "CVV", type: 'number', class: 'form-control input-checkout'
+          .checkout-shipping.address
+          .checkout-summary.address
+            ORDER SUMMARY
+            %item_total(style='margin-top: 5px')
+              = "ITEM TOTAL:  #{show_price(@checkout_form.order_total_price)}"
+            %item_delivery(style='margin-top: 5px')
+              = "SHIPPING:  #{show_price(@checkout_form.order.delivery&.price)}"
+            %order_total
+              = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))}"
+        .submit.column-start-start
+          = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success input-checkout'
+          = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'form-control btn btn-danger input-checkout'

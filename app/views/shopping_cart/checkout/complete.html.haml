@@ -1,0 +1,112 @@
+.content
+  .content-flex
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title= "ORDER ID #{@checkout_form.order.id}"
+        %ul.nav.nav-tabs
+          %li
+            %a(href= "address")  Address
+          %li
+            %a(href= "delivery") Delivery
+          %li
+            %a(href= "payment")  Payment
+          %li
+            %a(href= "confirm")  Confirm
+          %li.active
+            %a(href= "complete") Complete
+      %confirm-content.cart-book
+        %shipping
+          %div.row-start-centr
+            = "Shipping address "
+          %div
+          %div
+            = @checkout_form.order_shipping_address_first_name
+          %div
+            = @checkout_form.order_shipping_address_last_name
+          %div
+            = @checkout_form.order_shipping_address_street
+          %div
+            = @checkout_form.order_shipping_address_city
+          %div
+            = @checkout_form.order.order_shipping_address&.country&.name
+          %div
+            = @checkout_form.order_shipping_address_zip
+          %div
+            = @checkout_form.order_shipping_address_phone
+        %billing
+          %div.row-start-centr
+            = "Billing address "
+          %div
+          %div
+            = @checkout_form.order_billing_address_first_name
+          %div
+            = @checkout_form.order_billing_address_last_name
+          %div
+            = @checkout_form.order_billing_address_street
+          %div
+            = @checkout_form.order_billing_address_city
+          %div
+            = @checkout_form.order_billing_address&.country&.name
+          %div
+            = @checkout_form.order_billing_address_zip
+          %div
+            = @checkout_form.order_billing_address_phone
+        %shipments
+          %div.row-start-centr
+            = "Shipments "
+          %div
+          %div
+            = @checkout_form.order&.delivery&.name
+        %payment
+          %div.row-start-centr
+            = "Payment information "
+          %div
+          %div
+            = @checkout_form.credit_card_first_name
+          %div
+            = @checkout_form.credit_card_last_name
+          %div
+            = "**** **** **** #{@checkout_form.credit_card_number&.slice(12..16)}"
+          %div
+            = "#{@checkout_form.credit_card_exp_month}/#{@checkout_form.credit_card_exp_year}"
+      .order-content
+        %table.table
+          %thead
+            %th Book
+            %th Price
+            %th QTY
+            %th Total
+          %body
+            - @checkout_form.order.order_items.each do |order_item|
+              - id             = order_item.book_id
+              - title          = order_item.book.title
+              - description    = order_item.book.description
+              - price          = order_item.book.price
+              - amount         = order_item.quantity
+              - total          = show_price(price*amount)
+              - image          = order_item.book.cover.small
+              - @total_price   = @checkout_form.order.total_price
+              %tr
+                %td
+                  .cart-book
+                    %image= link_to image_tag("#{image}"), book_path(id)
+                    %descr
+                      %descr-title= title
+                      %descr-description= description
+                %td= show_price(price)
+                %td= amount
+                %td.total= total
+            %tr
+              %td.column-center-start
+                %div SUB TOTAL:
+                %div SHIPPING:
+              %td
+              %td
+              %td.column-center-center
+                %div= show_price(@total_price)
+                %div= show_price(@total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))
+            %tr
+              %td= link_to 'GO BACK TO STORE', shop_index_path, class: "btn btn-success", method: 'GET'
+              %td
+              %td
+              %td

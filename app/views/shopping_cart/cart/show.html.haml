@@ -1,0 +1,41 @@
+.content
+  .content-flex
+    %table.table
+      %thead
+        %th Book
+        %th Price
+        %th QTY
+        %th Total
+        %th
+      = form_tag cart_path, method: "PATCH" do
+        %body
+          - @cart.each do |book|
+            - @total_price ||= 0
+            - book[:coupon].nil? ? @total_price += book[:total] : @total_price += (book[:total] - book[:total] * book[:coupon].to_d/100)
+            %tr
+              %td
+                .cart-book
+                  %image= link_to image_tag("#{book[:image]}"), book_path(book[:id])
+                  %descr
+                    %descr-title= book[:title]
+                    %descr-description= book[:description]
+              %td= book[:price]
+              %td= number_field_tag "cart[#{book[:id]}]", book[:amount], min: "1", max: "99", step: 1
+              %td.total= book[:total]
+              %td= link_to 'Remove', cart_path(stat: 0, id: book[:id]), class: "btn btn-danger", method: 'DELETE'
+          %tr
+            %td SUB TOTAL:
+            %td
+            %td
+            %td
+            %td= @total_price ? @total_price.round(2) : 0
+          %tr
+            %td
+              = link_to 'EMPTY CART', cart_path(stat: 1), class: "btn btn-danger", method: 'DELETE'
+              = link_to 'CONTINUE SHOPPING', shop_index_path, class: "btn btn-warning", method: 'GET'
+            %td
+            %td
+            %td.update
+              = number_field_tag 'coupon', nil, step: 1
+              = button_tag 'UPDATE', class: "btn btn-info", type: "submit"
+            %td= link_to 'CHECKOUT', checkout_path(:address), class: "btn btn-success", method: 'GET'
