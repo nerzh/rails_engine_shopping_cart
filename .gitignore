@@ -23,4 +23,5 @@
 *.DS_Store
 /doc
 /public
-:*
+/Gemfile.lock
+/:*
