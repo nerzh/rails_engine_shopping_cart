@@ -23,9 +23,9 @@ Gem::Specification.new do |s|
   s.add_dependency "haml-rails",       '~> 0.9.0'
   s.add_dependency 'sass-rails',       '~> 5.0'
   s.add_dependency 'font-awesome-sass'
+  s.add_dependency 'cancancan'
 
   s.add_development_dependency "devise"
-
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'byebug'
   s.add_development_dependency "rspec-rails"
