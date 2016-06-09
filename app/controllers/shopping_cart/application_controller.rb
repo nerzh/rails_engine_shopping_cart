@@ -1,9 +1,16 @@
+# require_dependency "shopping_cart/application_controller"
+
 module ShoppingCart
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
     protect_from_forgery with: :exception
 
-    def get_order
-      Order.where(user_id: current_user.id, aasm_state: 'in_progress').first if current_user
+    before_action :merge_abilities
+
+    private
+
+    def merge_abilities
+      current_ability.merge(ShoppingCart::Ability.new(current_user))
     end
+
   end
 end
