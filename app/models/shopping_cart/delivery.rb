@@ -1,3 +1,5 @@
-class Delivery < ActiveRecord::Base
-  has_one :order
+module ShoppingCart
+  class Delivery < ActiveRecord::Base
+    has_one :order
+  end
 end
