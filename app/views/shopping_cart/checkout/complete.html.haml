@@ -78,18 +78,18 @@
             %th Total
           %body
             - @checkout_form.order.order_items.each do |order_item|
-              - id             = order_item.book_id
-              - title          = order_item.book.title
-              - description    = order_item.book.description
-              - price          = order_item.book.price
+              - id             = order_item.product_id
+              - title          = order_item.product.title
+              - description    = order_item.product.description
+              - price          = order_item.product.price
               - amount         = order_item.quantity
               - total          = show_price(price*amount)
-              - image          = order_item.book.cover.small
+              - image          = order_item.product.cover.small
               - @total_price   = @checkout_form.order.total_price
               %tr
                 %td
                   .cart-book
-                    %image= link_to image_tag("#{image}"), book_path(id)
+                    %image= link_to image_tag("#{image}"), main_app.product_path(id)
                     %descr
                       %descr-title= title
                       %descr-description= description
@@ -106,7 +106,7 @@
                 %div= show_price(@total_price)
                 %div= show_price(@total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))
             %tr
-              %td= link_to 'GO BACK TO STORE', shop_index_path, class: "btn btn-success", method: 'GET'
+              %td= link_to 'GO BACK TO STORE', main_app.shop_index_path, class: "btn btn-success", method: 'GET'
               %td
               %td
               %td

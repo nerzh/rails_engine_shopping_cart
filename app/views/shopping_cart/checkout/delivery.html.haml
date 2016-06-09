@@ -18,7 +18,7 @@
         .checkout-content.cart-book
           .checkout-billing.address
             DELIVERY
-            = collection_radio_buttons :order, :order_delivery_id, Delivery.all, :id, :name, {checked: @checkout_form.order_delivery_id} do |b|
+            = collection_radio_buttons :order, :order_delivery_id, ShoppingCart::Delivery.all, :id, :name, {checked: @checkout_form.order_delivery_id} do |b|
               = b.label() {b.text + " - #{show_price(b.object.price)}" + b.radio_button}
           .checkout-shipping.address
           .checkout-summary.address

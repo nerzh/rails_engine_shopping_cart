@@ -22,7 +22,7 @@
             = f.text_field :order_billing_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
             = f.text_field :order_billing_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
             = f.text_field :order_billing_address_city,       placeholder: "City",       class: 'form-control input-checkout'
-            = f.collection_select(:order_billing_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address"})
+            = f.collection_select(:order_billing_address_country_id, ShoppingCart::Country.all, :id, :name, {}, {class: "form-control input-address"})
             = f.text_field :order_billing_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
             = f.text_field :order_billing_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
           .checkout-shipping.address
@@ -31,7 +31,7 @@
             = f.text_field :order_shipping_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
             = f.text_field :order_shipping_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
             = f.text_field :order_shipping_address_city,       placeholder: "City",       class: 'form-control input-checkout'
-            = f.collection_select(:order_shipping_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address input-checkout"})
+            = f.collection_select(:order_shipping_address_country_id, ShoppingCart::Country.all, :id, :name, {}, {class: "form-control input-address input-checkout"})
             = f.text_field :order_shipping_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
             = f.text_field :order_shipping_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
           .checkout-summary.address

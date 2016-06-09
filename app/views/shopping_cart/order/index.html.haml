@@ -6,23 +6,23 @@
       .row-start-center.w100
         %table.table
           %thead
-            %th Book
+            %th Product
             %th Price
             %th QTY
             %th Total
             %th
           %tbody
-            - @order_items&.each do |book|
+            - @order_items&.each do |product|
               %tr
                 %td
-                  .cart-book
-                    %image= link_to image_tag("#{book[:image]}"), book_path(book[:id])
+                  .cart-product
+                    %image= link_to image_tag("#{product[:image]}"), product_path(product[:id])
                     %descr
-                      %descr-title= book[:title]
-                      %descr-description= book[:description]
-                %td= book[:price]
-                %td= number_field_tag "cart[#{book[:id]}]", book[:amount], min: "1", max: "99", step: 1
-                %td.total= book[:total]
+                      %descr-title= product[:title]
+                      %descr-description= product[:description]
+                %td= product[:price]
+                %td= number_field_tag "cart[#{product[:id]}]", product[:amount], min: "1", max: "99", step: 1
+                %td.total= product[:total]
             %tr
               %td
                 - if @order

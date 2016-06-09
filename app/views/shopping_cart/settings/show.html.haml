@@ -1,0 +1,47 @@
+.content
+  .content-flex.column-start-center
+    %settings-title SETTINGS
+    %forms.wrap-start.w100
+      = form_for @settings_form, url: settings_path, method: 'PATCH', html: {class: 'update_settings form-control wrap-start'} do |f|
+        %settings.column-start-center.w100
+          %info-for-order.row-around-start.w100
+            %billing.column-start-center
+              BILLING ADDRESS
+              = f.text_field :billing_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+              = f.text_field :billing_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
+              = f.text_field :billing_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
+              = f.text_field :billing_address_city,       placeholder: "City",       class: 'form-control input-checkout'
+              = f.collection_select(:billing_address_country_id, ShoppingCart::Country.all, :id, :name, {}, {class: "form-control input-address"})
+              = f.text_field :billing_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
+              = f.text_field :billing_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
+            %shipping.column-start-center
+              SHIPPING ADDRESS
+              = f.text_field :shipping_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+              = f.text_field :shipping_address_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
+              = f.text_field :shipping_address_street,     placeholder: "Street",     class: 'form-control input-checkout'
+              = f.text_field :shipping_address_city,       placeholder: "City",       class: 'form-control input-checkout'
+              = f.collection_select(:shipping_address_country_id, ShoppingCart::Country.all, :id, :name, {}, {class: "form-control input-address input-checkout"})
+              = f.text_field :shipping_address_zip,        placeholder: "Zipcode",    class: 'form-control input-checkout'
+              = f.text_field :shipping_address_phone,      placeholder: "Phone",      class: 'form-control input-checkout'
+            %credit-card.column-start-center
+              CREDIT CARD
+              = f.text_field :credit_card_first_name, placeholder: "First name", class: 'form-control input-checkout'
+              = f.text_field :credit_card_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
+              = f.text_field :credit_card_number,     placeholder: "Number",     class: 'form-control input-checkout'
+              %exp_date.cart-book
+                = f.select   :credit_card_exp_month,  1..12, {checked: @settings_form.credit_card_exp_year}, {class: 'form-control month'}
+                = f.select   :credit_card_exp_year,   Date.today.year.. 8.years.from_now.year, {checked: @settings_form.credit_card_exp_year}, {class: 'form-control year'}
+              = f.text_field :credit_card_cvv,        placeholder: "CVV", type: 'number', class: 'form-control input-checkout'
+              %email.row-center-center EMAIL
+              = f.text_field :user_email, placeholder: "Email", type: 'email', class: 'form-control input-checkout'
+          = f.submit 'SAVE SETTINGS', class: 'form-control btn btn-success input-checkout'
+    %user-info.column-start-center.w100
+      %password.column-start-center PASSWORD
+      = form_for @user, url: { action: "update_password" }, method: 'PATCH', html: {class: 'update_settings form-control column-start-center'} do |f|
+        = f.label :current_password
+        = f.password_field :current_password,              class: 'form-control input-checkout'
+        = f.label :password, "Password"
+        = f.password_field :password, autocomplete: "off", class: 'form-control input-checkout'
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation,         class: 'form-control input-checkout'
+        = f.submit 'SAVE PASSWORD',                        class: 'form-control btn btn-success input-checkout'
