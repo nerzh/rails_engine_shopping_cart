@@ -14,6 +14,7 @@ module ShoppingCart
       end
 
       ActiveSupport.on_load(:action_controller) do
+        # ActionController::Base.include(ShoppingCart::AppCtrlConcern)
         include ShoppingCart::AppCtrlConcern
         helper ShoppingCart::Engine.helpers
       end

@@ -1,8 +1,6 @@
 module ShoppingCart
   class OrderController < ApplicationController
-    # before_action :define_order, only: [:show]
-    authorize_resource
-
+    before_action :authenticate_user!
     include CartItems
 
     def index
@@ -18,20 +16,5 @@ module ShoppingCart
       @user = current_user
     end
 
-    # def create
-    #   review = ReviewForm.new(params: params_review).apply_parameters
-    #   review.save ? render(json: {status: 200}) : render(json: review.errors, status: :unprocessable_entity)
-    # end
-
-    private
-
-    # def define_order
-    #   @order = Order.find(params[:id])
-    # end
-
-    # def params_order
-    #   params.require(:order).permit(:rating_points, :rating_book_id, :rating_user_id, :review_theme,
-    #                                 :review_text,   :review_user_id, :review_book_id)
-    # end
   end
 end
