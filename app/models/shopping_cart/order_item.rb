@@ -1,6 +1,6 @@
 module ShoppingCart
   class OrderItem < ActiveRecord::Base
-    include CartItems
+    include CartProcessor
 
     belongs_to :product, class_name: ShoppingCart.product_model
     belongs_to :order

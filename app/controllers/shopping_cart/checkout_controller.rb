@@ -3,12 +3,11 @@ module ShoppingCart
     before_action :authenticate_user!
 
     include Wicked::Wizard
+    include CartProcessor
     steps :address, :delivery, :payment, :confirm, :complete, :delete
 
-    before_action -> { redirect_to main_app.shop_index_path   if session[:cart].nil? || session[:cart].empty? and !get_order and
-                                                                 [:address, :delivery, :payment, :confirm].include?(step) }
-    before_action -> { redirect_to checkout_path(:address)    if session[:cart].nil? || session[:cart].empty? and
-                                                                 get_order and step == :complete }
+    before_action -> { redirect_to main_app.shop_index_path if wrong_checkout_path? }
+    before_action -> { redirect_to checkout_path(:address)  if wrong_complete_path? }
 
     def show
       if order = get_order
@@ -19,8 +18,7 @@ module ShoppingCart
           render_wizard and return
         end
         @checkout_form = CheckoutForm.new(current_user, order: order, session: session)
-        session[:cart].clear
-        session[:coupon]&.clear
+        clear_cart
       end
 
       render_wizard

@@ -1,7 +1,7 @@
 module ShoppingCart
   class OrderController < ApplicationController
     before_action :authenticate_user!
-    include CartItems
+    include CartProcessor
 
     def index
       @orders      = current_user&.orders

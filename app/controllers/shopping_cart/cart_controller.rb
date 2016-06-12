@@ -1,6 +1,6 @@
 module ShoppingCart
   class CartController < ApplicationController
-    include CartItems
+    include CartProcessor
 
     before_action -> { session[:cart] ||= Hash.new; session[:coupon] ||= Hash.new }
 
@@ -10,42 +10,17 @@ module ShoppingCart
     end
 
     def add
-      unless session[:cart][params[:id]].nil?
-        session[:cart][params[:id]] = session[:cart][params[:id]].to_i + params[:quantity].to_i
-        redirect_to cart_path and return
-      end
-      session[:cart][params[:id]] = params[:quantity].to_i
-
+      add_to_session_cart
       redirect_to cart_path
     end
 
     def update
-      if params[:coupon] =~ /^\d+$/
-        coupon = Coupon.find_by(number: params[:coupon])
-        session[:coupon]['id']       = coupon&.id
-        session[:coupon]['number']   = coupon&.number
-        session[:coupon]['discount'] = coupon&.discount
-      else
-        session[:coupon]['id']       = nil
-        session[:coupon]['number']   = nil
-        session[:coupon]['discount'] = nil
-      end
-      params[:cart]&.keys&.each do |product_id|
-        session[:cart].delete(product_id) and next if params[:cart][product_id] == ''
-        session[:cart][product_id] = params[:cart][product_id]
-      end
-
+      update_session_cart
       redirect_to cart_path
     end
 
     def destroy
-      if params[:stat] == "0"
-        session[:cart].delete(params[:id]) if session[:cart].key? params[:id]
-      elsif params[:stat] == "1"
-        session[:cart].clear
-        session[:coupon]&.clear
-      end
-
+      destroy_product_or_clear_self
       redirect_to cart_path
     end
 
