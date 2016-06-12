@@ -2,7 +2,7 @@
   .content-flex.column-start-center
     %settings-title SETTINGS
     %forms.wrap-start.w100
-      = form_for @settings_form, url: settings_path, method: 'PATCH', html: {class: 'update_settings form-control wrap-start'} do |f|
+      = form_for @setting, url: settings_path, method: 'PATCH', html: {class: 'update_settings form-control wrap-start'} do |f|
         %settings.column-start-center.w100
           %info-for-order.row-around-start.w100
             %billing.column-start-center
@@ -29,8 +29,8 @@
               = f.text_field :credit_card_last_name,  placeholder: "Last name",  class: 'form-control input-checkout'
               = f.text_field :credit_card_number,     placeholder: "Number",     class: 'form-control input-checkout'
               %exp_date.cart-book
-                = f.select   :credit_card_exp_month,  1..12, {checked: @settings_form.credit_card_exp_year}, {class: 'form-control month'}
-                = f.select   :credit_card_exp_year,   Date.today.year.. 8.years.from_now.year, {checked: @settings_form.credit_card_exp_year}, {class: 'form-control year'}
+                = f.select   :credit_card_exp_month,  1..12, {checked: @setting.credit_card_exp_year}, {class: 'form-control month'}
+                = f.select   :credit_card_exp_year,   Date.today.year.. 8.years.from_now.year, {checked: @setting.credit_card_exp_year}, {class: 'form-control year'}
               = f.text_field :credit_card_cvv,        placeholder: "CVV", type: 'number', class: 'form-control input-checkout'
               %email.row-center-center EMAIL
               = f.text_field :user_email, placeholder: "Email", type: 'email', class: 'form-control input-checkout'
