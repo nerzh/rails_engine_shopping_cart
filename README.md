@@ -61,13 +61,13 @@ Create data of your countries and delivery options:
 
 ###Helpers
 
-shopping_cart.cart_path                                              - cart_path
-shopping_cart.add_cart_path(product), method: 'POST'                 - add to cart button
-shopping_cart.cart_path, method: "PATCH"                             - update cart
-shopping_cart.cart_path(stat: 0, id: product[:id]), method: 'DELETE' - delete product in cart
-shopping_cart.cart_path(stat: 1), method: 'DELETE'                   - clear cart
-shopping_cart.checkout_path                                          - checkout_path
-shopping_cart.orders_path                                            - order list path
+* shopping_cart.cart_path                                              - cart_path
+* shopping_cart.add_cart_path(product), method: 'POST'                 - add to cart button
+* shopping_cart.cart_path, method: "PATCH"                             - update cart
+* shopping_cart.cart_path(stat: 0, id: product[:id]), method: 'DELETE' - delete product in cart
+* shopping_cart.cart_path(stat: 1), method: 'DELETE'                   - clear cart
+* shopping_cart.checkout_path                                          - checkout_path
+* shopping_cart.orders_path                                            - order list path
 
 ###Generators
 
