@@ -7,6 +7,13 @@ module ShoppingCart
   class Engine < ::Rails::Engine
     isolate_namespace ShoppingCart
 
+    config.generators do |g|
+      g.fixture_replacement :factory_girl, dir:     'spec/factories'
+      g.test_framework      :rspec,        fixture: false
+      g.assets false
+      g.helper false
+    end
+
     initializer 'shopping_cart' do
       ActiveSupport.on_load(:active_record) do
         ActiveRecord::Base.extend(Settings::Product)
