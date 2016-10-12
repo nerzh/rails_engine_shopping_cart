@@ -30,6 +30,7 @@ module ShoppingCart
       return {} if params.empty?
       case step
         when :address
+          not_validate CreditCard
           params.require(:order).permit(:order_billing_address_first_name, :order_billing_address_last_name,
                                         :order_billing_address_street,     :order_billing_address_city,
                                         :order_billing_address_country_id, :order_billing_address_zip,
