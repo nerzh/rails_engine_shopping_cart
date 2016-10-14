@@ -6,7 +6,7 @@ Simple Ruby On Rails plugin based on Rails Engine
 Add this line to your application gemfile
 
 ```ruby
-  gem 'shopping_cart', git: 'https://github.com/kopchak/engi.git'
+  gem 'shopping_cart', git: 'https://github.com/woodcrust/rails_engine_shopping_cart.git'
 ```
 and then execute:
 ```
