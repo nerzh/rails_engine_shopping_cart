@@ -48,6 +48,15 @@ e.g. Book
     this_is_product
   end
 ```
+Add engine_shopping_cart.rb to initializers:
+```ruby
+  ActiveSupport.on_load(:active_record) do
+    ActiveRecord::Base.extend(ShoppingCart::Settings::Product)
+    ActiveRecord::Base.extend(ShoppingCart::Settings::User)
+    ShoppingCart.product_model = Book
+    ShoppingCart.user_model    = User
+  end
+```
 
 Create data of your countries and delivery options:
 ```ruby
