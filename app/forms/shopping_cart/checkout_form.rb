@@ -1,12 +1,14 @@
 module ShoppingCart
-  class CheckoutForm
-    include SlimFormObject
+  class CheckoutForm < SlimFormObject::Base
+    # include SlimFormObject
 
     set_model_name 'Order'
     init_models  Order, OrderBillingAddress, OrderShippingAddress, CreditCard
     validate :validation_models
 
     def initialize(current_user, params: {}, order: nil, session: nil, step: nil)
+      super(params: parameters(step, params))
+
       self.order                  = current_user.orders.create unless self.order                  = order
       self.order_billing_address  = OrderBillingAddress.new    unless self.order_billing_address  = self.order.order_billing_address
       self.order_shipping_address = OrderShippingAddress.new   unless self.order_shipping_address = self.order.order_shipping_address
@@ -30,19 +32,13 @@ module ShoppingCart
       return {} if params.empty?
       case step
         when :address
-          not_validate CreditCard
-          params.require(:order).permit(:order_billing_address_first_name, :order_billing_address_last_name,
-                                        :order_billing_address_street,     :order_billing_address_city,
-                                        :order_billing_address_country_id, :order_billing_address_zip,
-                                        :order_billing_address_phone,      :order_shipping_address_first_name,
-                                        :order_shipping_address_last_name, :order_shipping_address_street,
-                                        :order_shipping_address_city,      :order_shipping_address_country_id,
-                                        :order_shipping_address_zip,       :order_shipping_address_phone)
+          # not_validate CreditCard
+          params.require(:order).permit(order_billing_address: [:first_name, :last_name, :street, :city, :country_id, :zip, :phone], 
+                                        order_shipping_address: [:first_name, :last_name, :street, :city, :country_id, :zip, :phone])
         when :delivery
-          params.require(:order).permit(:order_delivery_id)
+          params.require(:order).permit(order: [:delivery_id])
         when :payment
-          params.require(:order).permit(:credit_card_number,    :credit_card_cvv,        :credit_card_exp_year,
-                                        :credit_card_exp_month, :credit_card_first_name, :credit_card_last_name)
+          params.require(:order).permit(credit_card: [:number, :cvv, :exp_year, :exp_month, :first_name, :last_name])
       end
     end
   end

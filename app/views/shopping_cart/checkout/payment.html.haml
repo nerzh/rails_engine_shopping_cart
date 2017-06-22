@@ -18,13 +18,13 @@
         .checkout-content.cart-book
           .checkout-billing.address
             CREDIT CARD
-            = f.text_field :credit_card_first_name, placeholder: "First name", class: 'form-control input-checkout'
-            = f.text_field :credit_card_last_name,  placeholder: "First name", class: 'form-control input-checkout'
-            = f.text_field :credit_card_number,     placeholder: "Number",     class: 'form-control input-checkout'
+            = f.text_field 'credit_card-first_name', placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field 'credit_card-last_name',  placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field 'credit_card-number',     placeholder: "Number",     class: 'form-control input-checkout'
             %exp_date.cart-book
-              = f.select   :credit_card_exp_month,  1..12, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control month'}
-              = f.select   :credit_card_exp_year,   Date.today.year.. 8.years.from_now.year, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control year'}
-            = f.text_field :credit_card_cvv,        placeholder: "CVV", type: 'number', class: 'form-control input-checkout'
+              = f.select   'credit_card-exp_month',  1..12, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control month'}
+              = f.select   'credit_card-exp_year',   Date.today.year..8.years.from_now.year, {checked: @checkout_form.credit_card_exp_year}, {class: 'form-control year'}
+            = f.text_field 'credit_card-cvv',        placeholder: "CVV", type: 'number', class: 'form-control input-checkout'
           .checkout-shipping.address
           .checkout-summary.address
             ORDER SUMMARY

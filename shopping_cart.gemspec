@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency 'rails',            '~> 4.2.6'
-  s.add_dependency 'slim_form_object', '~> 0.5.12'
+  s.add_dependency 'slim_form_object', '~> 1.0.0'
   s.add_dependency 'aasm'
   s.add_dependency 'wicked',           '~> 1.2', '>= 1.2.1'
   s.add_dependency "haml-rails",       '~> 0.9.0'
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'byebug'
   s.add_development_dependency "rspec-rails"
-  s.add_development_dependency "factory_girl_rails"
+  s.add_development_dependency "factory_girl"
   s.add_development_dependency "shoulda-matchers"
   s.add_development_dependency "faker"
   s.add_development_dependency "database_cleaner"
